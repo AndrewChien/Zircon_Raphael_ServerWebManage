@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+
+<ModalContainer />
+<ToastContainer />
+<OffcanvasContainer />
+
+<div>
+    <!-- 左侧导航栏 MainNavigation.razor -->
+    <MainNavigation />
+
+    <!-- 右侧页面 Index.razor -->
+    <div class="page-wrapper">
+        <div class="container-fluid">
+            @Body
+        </div>
+    </div>
+
+</div>

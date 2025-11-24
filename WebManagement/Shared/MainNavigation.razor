@@ -1,0 +1,101 @@
+﻿<Navbar Direction=NavbarDirection.Vertical Background=NavbarBackground.Dark>
+
+    <!-- logo -->
+    <a href="" class="navbar-brand navbar-brand-autodark">
+        <img src="img/TabBlazorLogoWhite.png" alt="Tabler" class="navbar-brand-image me-2">
+        <h2 class="text-muted">服务端管理</h2>
+    </a>
+
+    <!-- 菜单栏 -->
+    <NavbarMenu>
+        <NavbarMenuItem Text="系统">
+            <MenuItemIcon>
+                <Icon class="icon" IconType="@TablerIcons.Settings" />
+            </MenuItemIcon>
+            <SubMenu>
+                <NavbarMenuItem Text="系统日志" Href="Operations/SysLog" />
+                <NavbarMenuItem Text="聊天日志" Href="Operations/ChatLog" />
+                <NavbarMenuItem Text="系统设置" Href="Operations/Config" />
+            </SubMenu>
+        </NavbarMenuItem>
+        <NavbarMenuItem Text="玩家">
+            <MenuItemIcon>
+                <Icon class="icon" IconType="@TablerIcons.User" />
+            </MenuItemIcon>
+            <SubMenu>
+                <NavbarMenuItem Text="基础数据" Href="Player/BaseStats" />
+                <NavbarMenuItem Text="技能设置" Href="/" />
+                <NavbarMenuItem Text="声望设置" Href="/" />
+                <NavbarMenuItem Text="专精设置" Href="/" />
+                <NavbarMenuItem Text="宠物设置" Href="/" />
+                <NavbarMenuItem Text="货币管理" Href="/" />
+            </SubMenu>
+        </NavbarMenuItem>
+        <NavbarMenuItem Text="地图">
+            <MenuItemIcon>
+                <Icon class="icon" IconType="@TablerIcons.Map_2" />
+            </MenuItemIcon>
+            <SubMenu>
+                <NavbarMenuItem Text="地图设置" Href="/" />
+                <NavbarMenuItem Text="地图链接" Href="/" />
+                <NavbarMenuItem Text="区域管理" Href="/" />
+                <NavbarMenuItem Text="移动管理" Href="/" />
+                <NavbarMenuItem Text="安全区域" Href="/" />
+                <NavbarMenuItem Text="钓鱼设置" Href="/" />
+                <NavbarMenuItem Text="城堡设置" Href="/" />
+                <NavbarMenuItem Text="地图事件" Href="/" />
+            </SubMenu>
+        </NavbarMenuItem>
+        <NavbarMenuItem Text="NPC">
+            <MenuItemIcon>
+                <Icon class="icon" IconType="@TablerIcons.Robot" />
+            </MenuItemIcon>
+            <SubMenu>
+                <NavbarMenuItem Text="NPC设置" Href="/" />
+                <NavbarMenuItem Text="NPC页" Href="/" />
+                <NavbarMenuItem Text="任务设置" Href="/" />
+                <NavbarMenuItem Text="储物设置" Href="/" />
+            </SubMenu>
+        </NavbarMenuItem>
+        <NavbarMenuItem Text="物品">
+            <MenuItemIcon>
+                <Icon class="icon" IconType="@TablerIcons.Shopping_bag" />
+            </MenuItemIcon>
+            <SubMenu>
+                <NavbarMenuItem Text="物品设置" Href="/" />
+                <NavbarMenuItem Text="物品状态" Href="/" />
+                <NavbarMenuItem Text="设置管理" Href="/" />
+                <NavbarMenuItem Text="装备工艺" Href="/" />
+                <NavbarMenuItem Text="捆绑设置" Href="/" />
+                <NavbarMenuItem Text="宝箱设置" Href="/" />
+            </SubMenu>
+        </NavbarMenuItem>
+        <NavbarMenuItem Text="怪物">
+            <MenuItemIcon>
+                <Icon class="icon" IconType="@TablerIcons.Alien" />
+            </MenuItemIcon>
+            <SubMenu>
+                <NavbarMenuItem Text="怪物管理" Href="/" />
+                <NavbarMenuItem Text="怪物状态" Href="/" />
+                <NavbarMenuItem Text="怪物掉落" Href="/" />
+                <NavbarMenuItem Text="怪物复活" Href="/" />
+            </SubMenu>
+        </NavbarMenuItem>
+        <NavbarMenuItem Text="管理">
+            <MenuItemIcon>
+                <Icon class="icon" IconType="@TablerIcons.Adjustments" />
+            </MenuItemIcon>
+            <SubMenu>
+                <NavbarMenuItem Text="玩家账号" Href="/" />
+                <NavbarMenuItem Text="玩家角色" Href="/" />
+                <NavbarMenuItem Text="玩家掉落" Href="/" />
+                <NavbarMenuItem Text="玩家充值" Href="/" />
+                <NavbarMenuItem Text="商城管理" Href="/" />
+                <NavbarMenuItem Text="统计信息" Href="/" />
+                <NavbarMenuItem Text="攻城数据" Href="/" />
+                <NavbarMenuItem Text="邮件管理" Href="/" />
+                <NavbarMenuItem Text="NPC数据" Href="/" />
+            </SubMenu>
+        </NavbarMenuItem>
+    </NavbarMenu>
+</Navbar>

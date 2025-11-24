@@ -1,0 +1,1071 @@
+﻿@page "/Operations/Config"
+@implements IDisposable
+
+@using Server.Envir
+@using TabBlazor.Services
+@inject ToastService ToastService
+
+<Page>
+    <div style="margin:20px">
+        <Badge BackgroundColor="TablerColor.Primary">系统 - 系统设置</Badge>
+    </div>
+    <div>
+        <Button style="width:100px" BackgroundColor="TablerColor.Primary" Type="ButtonType.Button">保存配置</Button>
+        <Button style="width:100px" BackgroundColor="TablerColor.Primary" Type="ButtonType.Button">重新加载</Button>
+    </div>
+    <Tabs>
+        <Tab>
+            <Header>
+                <Icon class="icon" IconType="@TablerIcons.Network" />网络
+            </Header>
+            <ChildContent>
+                <table border="0" style="padding:20px">
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">IP地址：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="IPAddress" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">端口：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="Port" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">关闭时间：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="TimeOut" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">网络延迟：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="PingDelay" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">用户计数端口：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="UserCountPort" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">最大数据包：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MaxPacket" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">数据包延时：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="PacketBanTime" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" width="300" align="center">
+                            <Button style="width:160px" BackgroundColor="TablerColor.Primary" Type="ButtonType.Button">同步远程数据库</Button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" width="300" align="center">
+                            <Button style="width:160px" BackgroundColor="TablerColor.Primary" Type="ButtonType.Button">同步本地数据库</Button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" width="300" align="center">
+                            <Button style="width:160px" BackgroundColor="TablerColor.Primary" Type="ButtonType.Button">数据库加密</Button>
+                        </td>
+                    </tr>
+                </table>
+            </ChildContent>
+        </Tab>
+
+        <Tab>
+            <Header>
+                <Icon class="icon" IconType="@TablerIcons.Ease_in_out_control_points" />控制
+            </Header>
+            <ChildContent>
+                <table border="0" style="padding:20px">
+                    <tr>
+                        <td width="150">
+                            <Checkbox Switch Label="新账户" @bind-Value="AllowNewAccount"></Checkbox>
+                        </td>
+                        <td width="180">
+                            <Checkbox Switch Label="允许创建战士" @bind-Value="AllowWarrior"></Checkbox>
+                        </td>
+                        <td>
+                            <Checkbox Switch Label="允许修改密码" @bind-Value="AllowRequestPasswordReset"></Checkbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <Checkbox Switch Label="修改密码" @bind-Value="AllowChangePassword"></Checkbox>
+                        </td>
+                        <td>
+                            <Checkbox Switch Label="允许创建法师" @bind-Value="AllowWizard"></Checkbox>
+                        </td>
+                        <td>
+                            <Checkbox Switch Label="允许网页重置" @bind-Value="AllowWebResetPassword"></Checkbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <Checkbox Switch Label="登录" @bind-Value="AllowLogin"></Checkbox>
+                        </td>
+                        <td>
+                            <Checkbox Switch Label="允许创建道士" @bind-Value="AllowTaoist"></Checkbox>
+                        </td>
+                        <td>
+                            <Checkbox Switch Label="允许手动重置" @bind-Value="AllowManualResetPassword"></Checkbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <Checkbox Switch Label="新角色" @bind-Value="AllowNewCharacter"></Checkbox>
+                        </td>
+                        <td>
+                            <Checkbox Switch Label="允许创建刺客" @bind-Value="AllowAssassin"></Checkbox>
+                        </td>
+                        <td>
+                            <Checkbox Switch Label="允许删除账号" @bind-Value="AllowDeleteAccount"></Checkbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <Checkbox Switch Label="删除角色" @bind-Value="AllowDeleteCharacter"></Checkbox>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <Checkbox Switch Label="允许申请激活" @bind-Value="AllowRequestActivation"></Checkbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <Checkbox Switch Label="开始游戏" @bind-Value="AllowStartGame"></Checkbox>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <Checkbox Switch Label="允许网页激活" @bind-Value="AllowWebActivation"></Checkbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            重启延时<input type="text" class="form-control" @bind="RelogDelay" />
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <Checkbox Switch Label="允许手动激活" @bind-Value="AllowManualActivation"></Checkbox>
+                        </td>
+                    </tr>
+                </table>
+            </ChildContent>
+        </Tab>
+
+        <Tab>
+            <Header>
+                <Icon class="icon" IconType="@TablerIcons.Settings" />系统
+            </Header>
+            <ChildContent>
+                <table border="0" style="padding:20px">
+@*                     <tr>
+                        <td colspan="2" style="position:relative;left:110px">
+                            <Checkbox Switch Label="检查版本" @bind-Value="CheckVersion"></Checkbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">版本路径：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="VersionPath" />
+                        </td>
+                    </tr> *@
+                    <tr>
+                        <td colspan="2" width="300" align="center">
+                            <Button style="width:160px" BackgroundColor="TablerColor.Primary" Type="ButtonType.Button">检查版本</Button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">客户端路径：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="ClientPath" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">数据库保存延迟：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="DBSaveDelay" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">地图路径：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MapPath" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">主密码：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MasterPassword" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">开区时间：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="ReleaseDate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">兔子活动日期：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="RabbitEventEnd" />
+                        </td>
+                    </tr>
+                </table>
+            </ChildContent>
+        </Tab>
+
+        <Tab>
+            <Header>
+                <Icon class="icon" IconType="@TablerIcons.Mail" />邮件
+            </Header>
+            <ChildContent>
+                <table border="0" style="padding:20px">
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">服务器：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MailServer" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">端口：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MailPort" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="position:relative;left:110px">
+                            <Checkbox Switch Label="使用SSL" @bind-Value="MailUseSSL"></Checkbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">账号：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MailAccount" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">授权码：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MailPassword" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">来源：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MailFrom" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">显示名字：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MailDisplayName" />
+                        </td>
+                    </tr>
+                </table>
+            </ChildContent>
+        </Tab>
+
+        <Tab>
+            <Header>
+                <Icon class="icon" IconType="@MDIcons.Web" />Web服务
+            </Header>
+            <ChildContent>
+                <table border="0" style="padding:20px">
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">网络路径：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="WebPrefix" />
+                        </td>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">充值路径：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="BuyPrefix" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">命令链接：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="WebCommandLink" />
+                        </td>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">充值地址：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="BuyAddress" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">激活成功链接：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="ActivationSuccessLink" />
+                        </td>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">IPN路径：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="IPNPrefix" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">激活失败链接：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="ActivationFailLink" />
+                        </td>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">接收邮件地址：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="ReceiverEMail" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">重置成功链接：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="ResetSuccessLink" />
+                        </td>
+                        <td colspan="2" style="position:relative;left:110px">
+                            <Checkbox Switch Label="元宝流程" @bind-Value="ProcessGameGold"></Checkbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">重置失败链接：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="ResetFailLink" />
+                        </td>
+                        <td colspan="2" style="position:relative;left:110px">
+@*                             <Checkbox Switch Label="允许购买元宝" @bind-Value="AllowNewAccount"></Checkbox> *@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">删除成功链接：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="DeleteSuccessLink" />
+                        </td>
+                        <td colspan="2" style="position:relative;left:110px">
+@*                             <Checkbox Switch Label="允许邮箱激活" @bind-Value="AllowNewAccount"></Checkbox> *@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">删除失败链接：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="DeleteFailLink" />
+                        </td>
+                        <td colspan="2">
+                        </td>
+                    </tr>
+                </table>
+            </ChildContent>
+        </Tab>
+
+        <Tab>
+            <Header>
+                <Icon class="icon" IconType="@TablerIcons.User" />玩家
+            </Header>
+            <ChildContent>
+                <table border="0" style="padding:20px">
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">最大视野范围：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MaxViewRange" />
+                        </td>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">中毒持续时间：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="BrownDuration" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">喊话延迟：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="ShoutDelay" />
+                        </td>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">PK点比率：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="PKPointRate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">全局延迟：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="GlobalDelay" />
+                        </td>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">PK点计时比率：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="PKPointTickRate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">最高等级：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MaxLevel" />
+                        </td>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">红毒：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="RedPoint" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">每天循环计数：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="DayCycleCount" />
+                        </td>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">PVP诅咒持续时间：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="PvPCurseDuration" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">技能经验：</label>
+                        </td>
+                        <td style="text-align:left">
+@*                             <input type="text" class="form-control" @bind="SkillExp" /> *@
+                        </td>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">PVP诅咒几率：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="PvPCurseRate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="position:relative;left:110px">
+                            <Checkbox Switch Label="允许观察者" @bind-Value="AllowObservation"></Checkbox>
+                        </td>
+                        <td colspan="2" style="position:relative;left:110px">
+                            <Checkbox Switch Label="Enable Struck" @bind-Value="AllowNewAccount"></Checkbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">自动恢复延迟：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="AutoReviveDelay" />
+                        </td>
+                        <td colspan="2" style="position:relative;left:110px">
+                            <Checkbox Switch Label="Enable Hermit" @bind-Value="AllowNewAccount"></Checkbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="position:relative;left:110px">
+                            <Checkbox Switch Label="Enable Fortune" @bind-Value="AllowNewAccount"></Checkbox>
+                        </td>
+                        <td colspan="2">
+                        </td>
+                    </tr>
+                </table>
+            </ChildContent>
+        </Tab>
+
+        <Tab>
+            <Header>
+                <Icon class="icon" IconType="@TablerIcons.Alien" />怪物
+            </Header>
+            <ChildContent>
+                <table border="0" style="padding:20px">
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">死亡持续时间：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="DeadDuration" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">割肉持续时间：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="HarvestDuration" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">神舰：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MysteryShipRegionIndex" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">熔岩：</label>
+                        </td>
+                        <td style="text-align:left">
+@*                             <input type="text" class="form-control" @bind="LairRegionIndex" /> *@
+                        </td>
+                    </tr>
+                </table>
+            </ChildContent>
+        </Tab>
+
+        <Tab>
+            <Header>
+                <Icon class="icon" IconType="@TablerIcons.Shopping_bag" />道具
+            </Header>
+            <ChildContent>
+                <table border="0" style="padding:20px">
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">掉落持续时间：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="DropDuration" />
+                        </td>
+                        <td colspan="2" style="position:relative;left:110px">
+@*                             <Checkbox Switch Label="是否挖矿绑定" @bind-Value="AllowNewAccount"></Checkbox> *@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">掉落距离：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="DropDistance" />
+                        </td>
+                        <td colspan="2">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">掉落层：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="DropLayers" />
+                        </td>
+                        <td colspan="2">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">火炬使用率：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="TorchRate" />
+                        </td>
+                        <td colspan="2">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">特修延迟：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="SpecialRepairDelay" />
+                        </td>
+                        <td colspan="2">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">最高幸运：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MaxLuck" />
+                        </td>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">最高强度：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MaxStrength" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">幸运几率：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="LuckRate" />
+                        </td>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">强度增加几率：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="StrengthAddRate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">最高诅咒：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="MaxCurse" />
+                        </td>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">强度损耗率：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="StrengthLossRate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">诅咒几率：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="CurseRate" />
+                        </td>
+                        <td colspan="2">
+                        </td>
+                    </tr>
+                </table>
+            </ChildContent>
+        </Tab>
+
+        <Tab>
+            <Header>
+                <Icon class="icon" IconType="@TablerIcons.Rating_12_plus" />加成
+            </Header>
+            <ChildContent>
+                <table border="0" style="padding:20px">
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">经验加成：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="ExperienceRate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">爆率加成：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="DropRate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">金币加成：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="GoldRate" />
+                        </td>
+                    </tr>
+@*                     <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">技能值加成：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="SkillRate" />
+                        </td>
+                    </tr> *@
+                    <tr>
+                        <td style="width:150px;text-align:right">
+                            <label class="form-label">宠物经验加成：</label>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" class="form-control" @bind="CompanionRate" />
+                        </td>
+                    </tr>
+                </table>
+            </ChildContent>
+        </Tab>
+    </Tabs>
+</Page>
+
+@code
+{
+    #region 变量
+
+    private Server.Envir.Config? config = null;
+
+    #region 网络
+    private string IPAddress = "";
+    private string Port = "";
+    private string TimeOut = "";
+    private string PingDelay = "";
+    private string UserCountPort = "";
+    private string MaxPacket = "";
+    private string PacketBanTime = "";
+    #endregion
+
+    #region 控制
+    private bool AllowNewAccount;
+    private bool AllowChangePassword;
+    private bool AllowLogin;
+    private bool AllowNewCharacter;
+    private bool AllowDeleteCharacter;
+    private bool AllowStartGame;
+    private bool AllowWarrior;
+    private bool AllowWizard;
+    private bool AllowTaoist;
+    private bool AllowAssassin;
+    private string RelogDelay = "";
+    private bool AllowRequestPasswordReset;
+    private bool AllowWebResetPassword;
+    private bool AllowManualResetPassword;
+    private bool AllowDeleteAccount;
+    private bool AllowManualActivation;
+    private bool AllowWebActivation;
+    private bool AllowRequestActivation;
+    #endregion
+
+    #region 系统
+    // private string CheckVersion = "";
+    // private string VersionPath = "";
+    private string DBSaveDelay = "";
+    private string MapPath = "";
+    private string MasterPassword = "";
+    private string ClientPath = "";
+    private string ReleaseDate = "";
+    private string RabbitEventEnd = "";
+    #endregion
+
+    #region 邮件
+    private string MailServer = "";
+    private string MailPort = "";
+    private bool MailUseSSL;
+    private string MailAccount = "";
+    private string MailPassword = "";
+    private string MailFrom = "";
+    private string MailDisplayName = "";
+    #endregion
+
+    #region Web 服务
+    private string WebPrefix = "";
+    private string WebCommandLink = "";
+    private string ActivationSuccessLink = "";
+    private string ActivationFailLink = "";
+    private string ResetSuccessLink = "";
+    private string ResetFailLink = "";
+    private string DeleteSuccessLink = "";
+    private string DeleteFailLink = "";
+
+    private string BuyPrefix = "";
+    private string BuyAddress = "";
+    private string IPNPrefix = "";
+    private string ReceiverEMail = "";
+    private bool ProcessGameGold;
+    // private string AllowBuyGameGold = "";
+    #endregion
+
+    #region 玩家
+    private string MaxViewRange = "";
+    private string ShoutDelay = "";
+    private string GlobalDelay = "";
+    private string MaxLevel = "";
+    private string DayCycleCount = "";
+    // private string SkillExp = "";
+    private bool AllowObservation;
+    private string BrownDuration = "";
+    private string PKPointRate = "";
+    private string PKPointTickRate = "";
+    private string RedPoint = "";
+    private string PvPCurseDuration = "";
+    private string PvPCurseRate = "";
+    private string AutoReviveDelay = "";
+    // private string EnableStruck = "";
+    // private string EnableHermit = "";
+    // private string EnableFortune = "";
+    #endregion
+
+    #region 怪物
+    private string DeadDuration = "";
+    private string HarvestDuration = "";
+    private string MysteryShipRegionIndex = "";
+    // private string LairRegionIndex = "";
+    #endregion
+
+    #region 道具
+    private string DropDuration = "";
+    private string DropDistance = "";
+    private string DropLayers = "";
+    private string TorchRate = "";
+    private string SpecialRepairDelay = "";
+    private string MaxLuck = "";
+    private string LuckRate = "";
+    private string MaxCurse = "";
+    private string CurseRate = "";
+    private string MaxStrength = "";
+    private string StrengthAddRate = "";
+    private string StrengthLossRate = "";
+    #endregion
+
+    #region 加成
+    private string ExperienceRate = "";
+    private string DropRate = "";
+    private string GoldRate = "";
+    // private string SkillRate = "";
+    private string CompanionRate = "";
+    #endregion
+
+    #endregion
+
+    /// <summary>
+    /// 进入页面触发
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnInitializedAsync()
+    {
+        if (NamedPipeClient.NPClient != null)
+        {
+            NamedPipeClient.NPClient.MessageReceived += OnMsg;
+
+            _ = ShowToast();
+            #region Logic Codes
+
+            config = await NamedPipeClient.GetFromNPServer<Server.Envir.Config>("Config");
+
+            //网络
+            IPAddress = Server.Envir.Config.IPAddress;
+            Port = Server.Envir.Config.Port.ToString();
+            TimeOut = Server.Envir.Config.TimeOut.ToString();
+            PingDelay = Server.Envir.Config.PingDelay.ToString();
+            UserCountPort = Server.Envir.Config.UserCountPort.ToString();
+            MaxPacket = Server.Envir.Config.MaxPacket.ToString();
+            PacketBanTime = Server.Envir.Config.PacketBanTime.ToString();
+
+            //控制
+            AllowNewAccount = Server.Envir.Config.AllowNewAccount;
+            AllowChangePassword = Server.Envir.Config.AllowChangePassword;
+            AllowLogin = Server.Envir.Config.AllowLogin;
+            AllowNewCharacter = Server.Envir.Config.AllowNewCharacter;
+            AllowDeleteCharacter = Server.Envir.Config.AllowDeleteCharacter;
+            AllowStartGame = Server.Envir.Config.AllowStartGame;
+            AllowWarrior = Server.Envir.Config.AllowWarrior;
+            AllowWizard = Server.Envir.Config.AllowWizard;
+            AllowTaoist = Server.Envir.Config.AllowTaoist;
+            AllowAssassin = Server.Envir.Config.AllowAssassin;
+            RelogDelay = Server.Envir.Config.RelogDelay.ToString();
+            AllowRequestPasswordReset = Server.Envir.Config.AllowRequestPasswordReset;
+            AllowWebResetPassword = Server.Envir.Config.AllowWebResetPassword;
+            AllowManualResetPassword = Server.Envir.Config.AllowManualResetPassword;
+            AllowDeleteAccount = Server.Envir.Config.AllowDeleteAccount;
+            AllowManualActivation = Server.Envir.Config.AllowManualActivation;
+            AllowWebActivation = Server.Envir.Config.AllowWebActivation;
+            AllowRequestActivation = Server.Envir.Config.AllowRequestActivation;
+
+            //系统
+            // CheckVersion = Server.Envir.Config.CheckVersion.ToString();
+            // VersionPath = Server.Envir.Config.VersionPath.ToString();
+            DBSaveDelay = Server.Envir.Config.DBSaveDelay.ToString();
+            MapPath = Server.Envir.Config.MapPath;
+            MasterPassword = Server.Envir.Config.MasterPassword;
+            ClientPath = Server.Envir.Config.ClientPath;
+            ReleaseDate = Server.Envir.Config.ReleaseDate.ToString();
+            RabbitEventEnd = Server.Envir.Config.EasterEventEnd.ToString();
+
+            //邮件
+            MailServer = Server.Envir.Config.MailServer;
+            MailPort = Server.Envir.Config.MailPort.ToString();
+            MailUseSSL = Server.Envir.Config.MailUseSSL;
+            MailAccount = Server.Envir.Config.MailAccount;
+            MailPassword = Server.Envir.Config.MailPassword;
+            MailFrom = Server.Envir.Config.MailFrom;
+            MailDisplayName = Server.Envir.Config.MailDisplayName;
+
+            //Web服务
+            WebPrefix = Server.Envir.Config.WebPrefix;
+            WebCommandLink = Server.Envir.Config.WebCommandLink;
+            ActivationSuccessLink = Server.Envir.Config.ActivationSuccessLink;
+            ActivationFailLink = Server.Envir.Config.ActivationFailLink;
+            ResetSuccessLink = Server.Envir.Config.ResetSuccessLink;
+            ResetFailLink = Server.Envir.Config.ResetFailLink;
+            DeleteSuccessLink = Server.Envir.Config.DeleteSuccessLink;
+            DeleteFailLink = Server.Envir.Config.DeleteFailLink;
+
+            BuyPrefix = Server.Envir.Config.BuyPrefix;
+            BuyAddress = Server.Envir.Config.BuyAddress;
+            IPNPrefix = Server.Envir.Config.IPNPrefix;
+            ReceiverEMail = Server.Envir.Config.ReceiverEMail;
+            ProcessGameGold = Server.Envir.Config.ProcessGameGold;
+            // AllowBuyGameGold = Server.Envir.Config.AllowBuyGameGold.ToString();
+
+
+            //玩家
+            MaxViewRange = Server.Envir.Config.MaxViewRange.ToString();
+            ShoutDelay = Server.Envir.Config.ShoutDelay.ToString();
+            GlobalDelay = Server.Envir.Config.GlobalDelay.ToString();
+            MaxLevel = Server.Envir.Config.MaxLevel.ToString();
+            DayCycleCount = Server.Envir.Config.DayCycleCount.ToString();
+            // SkillExp = Server.Envir.Config.SkillExp.ToString();
+            AllowObservation = Server.Envir.Config.AllowObservation;
+            BrownDuration = Server.Envir.Config.BrownDuration.ToString();
+            PKPointRate = Server.Envir.Config.PKPointRate.ToString();
+            PKPointTickRate = Server.Envir.Config.PKPointTickRate.ToString();
+            RedPoint = Server.Envir.Config.RedPoint.ToString();
+            PvPCurseDuration = Server.Envir.Config.PvPCurseDuration.ToString();
+            PvPCurseRate = Server.Envir.Config.PvPCurseRate.ToString();
+            AutoReviveDelay = Server.Envir.Config.AutoReviveDelay.ToString();
+            // EnableStruck = Server.Envir.Config.EnableStruck.ToString();
+            // EnableHermit = Server.Envir.Config.EnableHermit.ToString();
+            // EnableFortune = Server.Envir.Config.EnableFortune.ToString();
+
+            //怪物
+            DeadDuration = Server.Envir.Config.DeadDuration.ToString();
+            HarvestDuration = Server.Envir.Config.HarvestDuration.ToString();
+            MysteryShipRegionIndex = Server.Envir.Config.MysteryShipRegionIndex.ToString();
+            // LairRegionIndex = Server.Envir.Config.LairRegionIndex.ToString();
+
+            //道具
+            DropDuration = Server.Envir.Config.DropDuration.ToString();
+            DropDistance = Server.Envir.Config.DropDistance.ToString();
+            DropLayers = Server.Envir.Config.DropLayers.ToString();
+            TorchRate = Server.Envir.Config.TorchRate.ToString();
+            SpecialRepairDelay = Server.Envir.Config.SpecialRepairDelay.ToString();
+            MaxLuck = Server.Envir.Config.MaxLuck.ToString();
+            LuckRate = Server.Envir.Config.LuckRate.ToString();
+            MaxCurse = Server.Envir.Config.MaxCurse.ToString();
+            CurseRate = Server.Envir.Config.CurseRate.ToString();
+            MaxStrength = Server.Envir.Config.MaxStrength.ToString();
+            StrengthAddRate = Server.Envir.Config.StrengthAddRate.ToString();
+            StrengthLossRate = Server.Envir.Config.StrengthLossRate.ToString();
+
+            //加成
+            ExperienceRate = Server.Envir.Config.ExperienceRate.ToString();
+            DropRate = Server.Envir.Config.DropRate.ToString();
+            GoldRate = Server.Envir.Config.GoldRate.ToString();
+            // SkillRate = Server.Envir.Config.SkillRate.ToString();
+            CompanionRate = Server.Envir.Config.CompanionRate.ToString();
+
+
+            #endregion
+            _ = RemoveToast();
+        }
+        else
+        {
+            await ToastService.AddToastAsync(new ToastModel
+            {
+                Title = "提示",
+                SubTitle = "服务异常",
+                Message = "连接NP服务失败，请检查服务端是否开启！"
+            });
+        }
+    }
+
+    /// <summary>
+    /// 离开页面触发
+    /// </summary>
+    public void Dispose()
+    {
+        if (NamedPipeClient.NPClient != null)
+        {
+            NamedPipeClient.NPClient.MessageReceived -= OnMsg;
+        }
+    }
+
+    private void OnMsg(ManaMessage msg)
+    {
+        //刷新页面
+        // InvokeAsync(StateHasChanged);
+    }
+
+    #region Toast
+
+    private ToastModel toast;
+    private async Task ShowToast()
+    {
+        toast = new ToastModel
+        {
+            Title = "提示",
+            SubTitle = "NP服务",
+            Message = "正在获取数据...",
+            Options = new ToastOptions
+            {
+                Delay = 0,
+                AllowUserRemove = false,
+                ShowProgress = true
+            }
+        };
+        await ToastService.AddToastAsync(toast);
+    }
+
+    private async Task RemoveToast()
+    {
+        await ToastService.RemoveToastAsync(toast);
+        toast = null;
+    }
+
+    #endregion
+}

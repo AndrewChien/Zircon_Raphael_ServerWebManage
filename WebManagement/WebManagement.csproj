@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TabBlazor" Version="0.14.49-beta" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\Map\" />
+    <Folder Include="Components\NPC\" />
+    <Folder Include="Components\Item\" />
+    <Folder Include="Components\Monster\" />
+    <Folder Include="Components\Management\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Server\Server.csproj" />
+  </ItemGroup>
+
+</Project>

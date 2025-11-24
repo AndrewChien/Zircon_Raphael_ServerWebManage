@@ -1,0 +1,94 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Platforms>AnyCPU;x64;x86</Platforms>
+		<PlatformTarget>x64</PlatformTarget>
+		<PackageOutputPath>$(OUTPUT)</PackageOutputPath>
+		<SignAssembly>False</SignAssembly>
+		<DelaySign>False</DelaySign>
+		<OutputPath>..\Build\Server</OutputPath>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+		<InvariantGlobalization>true</InvariantGlobalization>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<Deterministic>False</Deterministic>
+		<NoWarn>1701;1702;CS4014</NoWarn>
+		<DebugType>embedded</DebugType>
+		<IsPublishable>True</IsPublishable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<Deterministic>False</Deterministic>
+		<NoWarn>1701;1702;CS4014</NoWarn>
+		<DebugType>embedded</DebugType>
+		<IsPublishable>True</IsPublishable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<Deterministic>False</Deterministic>
+		<NoWarn>1701;1702;CS4014</NoWarn>
+		<DebugType>embedded</DebugType>
+		<IsPublishable>True</IsPublishable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<Deterministic>False</Deterministic>
+		<NoWarn>1701;1702;CS4014</NoWarn>
+		<DebugType>embedded</DebugType>
+		<IsPublishable>True</IsPublishable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<Deterministic>False</Deterministic>
+		<NoWarn>1701;1702;CS4014</NoWarn>
+		<DebugType>embedded</DebugType>
+		<IsPublishable>True</IsPublishable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<Deterministic>False</Deterministic>
+		<NoWarn>1701;1702;CS4014</NoWarn>
+		<DebugType>embedded</DebugType>
+		<IsPublishable>True</IsPublishable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Library\Library.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(TargetDir)&quot; &quot;%25USERPROFILE%25\Mir3\DeployServer&quot; /E /I /Y" />
+  </Target>-->
+
+	<ItemGroup>
+		<PackageReference Include="System.IO.Pipes" Version="4.3.0" />
+	</ItemGroup>
+
+</Project>

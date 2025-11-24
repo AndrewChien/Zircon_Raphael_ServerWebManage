@@ -1,0 +1,66 @@
+﻿@page "/Operations/ChatLog"
+@implements IDisposable
+
+@using System.Text
+@using Server.Envir
+@using TabBlazor.Services
+@inject ToastService ToastService
+
+<Page>
+    <div style="margin:20px">
+        <Badge BackgroundColor="TablerColor.Primary">系统 - 聊天日志</Badge>
+    </div>
+    <div style="width:auto;float:left;padding:20px;border:1px">
+        <dl>
+            @foreach (var txt in content)
+            {
+                <dt>@txt</dt>
+            }
+        </dl>
+    </div>
+</Page>
+
+@code
+{
+    List<string> content = new List<string>();
+    protected override async Task OnInitializedAsync()
+    {
+        if (NamedPipeClient.ChatLogClient != null)
+        {
+            NamedPipeClient.ChatLogClient.MessageReceived += OnChatLog;
+            await NamedPipeClient.OpenChatLog();
+        }
+        else
+        {
+            await ToastService.AddToastAsync(new ToastModel
+            {
+                Title = "提示",
+                SubTitle = "服务异常",
+                Message = "连接NP服务失败，请检查服务端是否开启！"
+            });
+        }
+    }
+
+    public void Dispose()
+    {
+        if (NamedPipeClient.ChatLogClient != null)
+        {
+            _ = NamedPipeClient.CloseChatLog();
+            NamedPipeClient.ChatLogClient.MessageReceived -= OnChatLog;
+        }
+    }
+
+    private void OnChatLog(ManaMessage msg)
+    {
+        if (content.Count > 10000)
+        {
+            content.Clear();
+        }
+        if (msg != null && msg.ModelData != null)
+        {
+            InvokeAsync(() => { content.Add(msg.ModelData); });
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+}

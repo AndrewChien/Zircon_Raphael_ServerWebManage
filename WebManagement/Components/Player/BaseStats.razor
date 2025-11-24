@@ -1,0 +1,242 @@
+﻿@page "/Player/BaseStats"
+@implements IDisposable
+
+@using Server.Envir
+@using TabBlazor
+@using TabBlazor.Services
+@using TabBlazor.Components
+@inject ToastService ToastService
+
+<Page>
+    <div style="margin:20px">
+        <Badge BackgroundColor="TablerColor.Primary">玩家 - 基础数据</Badge>
+    </div>
+    <Table Item="Library.SystemModels.BaseStat" Items="statslist" PageSize="int.MaxValue" Hover @ref="table" AddItemFactory="AddItem" ShowDetails="@(e => true)">
+        <HeaderTemplate>
+            <strong>基础数据</strong>
+        </HeaderTemplate>
+
+        <ChildContent>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.Class" Title="职业" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.Class" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.Level" Title="等级" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.Level" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.Health" Title="生命值" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.Health" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.Mana" Title="魔法值" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.Mana" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.BagWeight" Title="背包负重" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.BagWeight" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.WearWeight" Title="穿戴负重" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.WearWeight" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.HandWeight" Title="腕力" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.HandWeight" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.Accuracy" Title="准确" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.Accuracy" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.Agility" Title="敏捷" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.Agility" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.MinAC" Title="MinAC" Sortable Searchable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.MinAC" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.MaxAC" Title="MaxAC" Sortable Searchable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.MaxAC" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.MinMR" Title="MinMR" Sortable Searchable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.MinMR" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.MaxMR" Title="MaxMR" Sortable Searchable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.MaxMR" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.MinDC" Title="MinDC" Sortable Searchable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.MinDC" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.MaxDC" Title="MaxDC" Sortable Searchable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.MaxDC" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.MinMC" Title="MinMC" Sortable Searchable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.MinMC" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.MaxMC" Title="MaxMC" Sortable Searchable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.MaxMC" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.MinSC" Title="MinSC" Sortable Searchable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.MinSC" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Library.SystemModels.BaseStat" Property="e => e.MaxSC" Title="MaxSC" Sortable Searchable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.MaxSC" />
+                </EditorTemplate>
+            </Column>
+
+            <Column Item="Library.SystemModels.BaseStat" Title="" ActionColumn Width="auto">
+                <Template>
+                    <span @onclick="(() => table.EditItem(context))" @onclick:stopPropagation>
+                        <span class="clickable-text">Edit</span>
+                    </span>
+                </Template>
+                <EditorTemplate>
+                    <span @onclick="(() => table.CloseEdit())" @onclick:stopPropagation>
+                        <span class="clickable-text">Save</span>
+                    </span>
+                    <span @onclick="(() => table.CancelEdit())" @onclick:stopPropagation>
+                        <span class="clickable-text">Cancel</span>
+                    </span>
+                </EditorTemplate>
+            </Column>
+        </ChildContent>
+
+        <DetailsTemplate>
+            <Card>
+                <CardHeader>
+                    @context.Level 级 @context.Class 属性
+                </CardHeader>
+
+                <CardBody>
+                    职业：@context.Class，等级：@context.Level，生命值：@context.Health，
+                    魔法值：@context.Mana，背包负重：@context.BagWeight，穿戴负重：@context.WearWeight，
+                    腕力：@context.HandWeight，准确：@context.Accuracy，敏捷：@context.Agility，。。。
+                </CardBody>
+            </Card>
+        </DetailsTemplate>
+    </Table>
+</Page>
+
+@code
+{
+    [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
+    private static List<Library.SystemModels.BaseStat>? statslist;
+    private static List<Library.SystemModels.BaseStat>? selectedOrders = new List<Library.SystemModels.BaseStat>();
+
+    private Table<Library.SystemModels.BaseStat>? table;
+
+    private async Task OnItemEdit(Library.SystemModels.BaseStat stat)
+    {
+        await TablerService.ShowAlert($"编辑: {stat.Level}级{stat.Class}");
+    }
+
+    private async Task OnItemAdd(Library.SystemModels.BaseStat stat)
+    {
+        await TablerService.ShowAlert($"新增: {stat.Level}级{stat.Class}");
+    }
+
+    private async Task OnItemDelete(Library.SystemModels.BaseStat stat)
+    {
+        await TablerService.ShowAlert($"删除: {stat.Level}级{stat.Class}");
+    }
+
+    private Task<Library.SystemModels.BaseStat> AddItem()
+    {
+        return Task.FromResult(new Library.SystemModels.BaseStat { Class = Library.MirClass.Warrior });
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (NamedPipeClient.NPClient != null)
+        {
+            NamedPipeClient.NPClient.MessageReceived += OnMsg;
+
+            _ = ShowToast();
+            #region Logic Codes
+
+            statslist = await NamedPipeClient.GetFromNPServer<List<Library.SystemModels.BaseStat>>("Session.GetCollection<BaseStat>().Binding");
+
+            #endregion
+            _ = RemoveToast();
+        }
+        else
+        {
+            await ToastService.AddToastAsync(new ToastModel
+            {
+                Title = "提示",
+                SubTitle = "服务异常",
+                Message = "连接NP服务失败，请检查服务端是否开启！"
+            });
+        }
+    }
+
+    public void Dispose()
+    {
+        if (NamedPipeClient.NPClient != null)
+        {
+            NamedPipeClient.NPClient.MessageReceived -= OnMsg;
+        }
+    }
+
+    private void OnMsg(ManaMessage msg)
+    {
+        // InvokeAsync(StateHasChanged);
+    }
+
+    #region Toast
+
+    private ToastModel toast;
+    private async Task ShowToast()
+    {
+        toast = new ToastModel
+        {
+            Title = "提示",
+            SubTitle = "NP服务",
+            Message = "正在获取数据...",
+            Options = new ToastOptions
+            {
+                Delay = 0,
+                AllowUserRemove = false,
+                ShowProgress = true
+            }
+        };
+        await ToastService.AddToastAsync(toast);
+    }
+
+    private async Task RemoveToast()
+    {
+        await ToastService.RemoveToastAsync(toast);
+        toast = null;
+    }
+
+    #endregion
+}
